@@ -6,7 +6,6 @@
       <Menu class="menu"></Menu>
       <router-view></router-view>
     </section>
-    
   </div>
 </template>
 
@@ -21,10 +20,7 @@ import Menu from '../components/menu.vue'
   }
 })
 export default class Home extends Vue {
-  private doAbout() {
-    console.log(this)
-    this.$router.push({path: '/about'})
-  }
+  
 }
 </script>
 <style lang="less" scoped>

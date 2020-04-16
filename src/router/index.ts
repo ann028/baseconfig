@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index'
+import Nprogress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 Vue.use(VueRouter)
 
@@ -9,6 +11,11 @@ export const contantRouteMap = [
   // {
   //   path: '/',
   //   redirect: '/login'
+  // },
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home,
   // },
   {
     path: '/login',
@@ -51,22 +58,21 @@ export const asyncRouteMap = [
   }
 ]
 
-const routes: Array<RouteConfig> = [
+// const routes: Array<RouteConfig> = [
  
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    children: [
-      {
-        path: '/about',
-        name: 'About',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-      }
-    ]
-  },
- 
-]
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: Home,
+//     children: [
+//       {
+//         path: '/about',
+//         name: 'About',
+//         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+//       }
+//     ]
+//   },
+// ]
 
 const router = new VueRouter({
   mode: 'history',
@@ -75,47 +81,46 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('store---------', store)
-  let roles: any = store.state
-  roles = roles.auth.roles
+  let storeRoles: any = store.state
+  const roles = storeRoles.auth.roles;
   const token = window.sessionStorage.getItem('token')
-  // to.matched.some((record) => {
-  //   console.log(record)
-  // })
-  console.log(to.matched.some((record) => record.meta.auth))
-  if (to.matched.some((record) => record.meta.auth)) {
-    if (token) {
+  Nprogress.start()
+  if (token) {
+    // next();
+    if (to.path === '/login') { // 如果是登录页面的话，直接next()
+      next();
+    } else { // 否则 跳转到登录页面
       // next();
-      if (to.path === '/login') { // 如果是登录页面的话，直接next()
-        next();
-      } else { // 否则 跳转到登录页面
-        // next();
-        let state: any = store.state
-        if (state.auth.addRouters.length === 0) {
-          store.dispatch('saveUser', {
+      let storeAddRoute: any = store.state
+      // let state: any = store.state
+      if (storeAddRoute.auth.addRouters.length === 0) {
+        store.dispatch('getUserInfo', {
+          roles
+        }).then(() => {
+          let storeRoles: any = store.state
+          const roles = storeRoles.auth.roles;
+          store.dispatch('GenerateRoutes', {
             roles
           }).then(() => {
-            const roles1 = roles.auth.roles;
-            store.dispatch('GenerateRoutes', {
-              roles1
-            }).then(() => {
-              console.log('*********', router)
-              // router.addRoutes(roles.auth.addRoutes);
-              next()
-            })
-          }).catch(err => {})
-        } else {
-          next()
-        }
+            console.log('*********', router)
+            let storeaddRouters: any = store.state
+            const addRoutes = storeaddRouters.auth.addRoutes;
+            router.addRoutes(addRoutes);
+            console.log('----------', store.state)
+            next()
+          })
+        }).catch(err => {})
+      } else {
+        next()
       }
-    } else {
-      if (to.path === '/login') { // 如果是登录页面的话，直接next()
-        next();
-      } else { // 否则 跳转到登录页面
-        next({
-          path: '/login'
-        });
-      }
+    }
+  } else {
+    if (to.path === '/login') { // 如果是登录页面的话，直接next()
+      next();
+    } else { // 否则 跳转到登录页面
+      next({
+        path: '/login'
+      });
     }
   }
 });
@@ -123,6 +128,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
+  Nprogress.done()
 })
 
 

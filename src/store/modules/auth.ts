@@ -9,40 +9,45 @@ function hasPermission(roles: any, route: any) {
 }
 const auth = {
   state: {
-    userInfo: {
-      userId: window.sessionStorage.getItem('userId') || NaN,
-      token: window.sessionStorage.getItem('token') || '',
-    },
+    // userInfo: {
+    //   userId: window.sessionStorage.getItem('userId') || NaN,
+    //   token: window.sessionStorage.getItem('token') || '',
+    // },
     roles: '',
     staffRoles: [],
     routers: contantRouteMap,
-    addRouters: []
+    addRouters: [],
+    use: {},
+    Token: ''
   },
   mutations: {
-    saveUserToken(state: any, data: any) {
-      state.userInfo.userId = data.userId;
-      state.userInfo.token = data.token;
-      console.log('=========', data.userId)
-      window.sessionStorage.setItem('userId', data.userId);
-      window.sessionStorage.setItem('token', data.token);
-    },
+    // saveUserToken(state: any, data: any) {
+    //   state.userInfo.userId = data.userId;
+    //   state.userInfo.token = data.token;
+    //   console.log('=========', data.userId)
+    //   window.sessionStorage.setItem('userId', data.userId);
+    //   window.sessionStorage.setItem('token', data.token);
+    // },
     saveRole(state: any, data: any) {
       state.staffRoles = data.roles
       state.roles = data.roles.toString()
-      console.log('state', state.roles)
       window.sessionStorage.setItem('roles', data.roles.toString());
     },
     SET_ROUTERS: (state: any, routers: any) => {
       state.addRoutes = routers;
       state.routers = contantRouteMap.concat(routers);
     },
+    SET_USER(state: any, data: any) {
+      state.user = data
+      state.token = data.token
+      state.roles = data.roles.toString()
+    }
   },
   actions: {
     saveUser({ commit}: any , data: any ) {
       commit('saveUserToken', data);
     },
     setRoles({commit}: any, data: any) {
-      console.log('11', data.roles.toString())
       commit('saveRole', data)
     },
     GenerateRoutes({ commit }: any, data: any) {
@@ -66,44 +71,18 @@ const auth = {
         })
         // 两层过滤就得到一个只能role有权限能访问的路由map
         asyncRouteMap[0].children = accessedRouters;
+        console.log('添加路由', accessedRouters)
         commit('SET_ROUTERS', asyncRouteMap);
         // 把这个动态路由图，放到state的addRoutes里，也追加到固态路由图里
         resolve();
       })
     },
+    getUserInfo({commit}: any, data: any) {
+      commit('SET_USER', data)
+      window.sessionStorage.setItem('userId', data.userId);
+      window.sessionStorage.setItem('token', data.token);
+      window.sessionStorage.setItem('roles', data.roles.toString());
+    }
   }
 }
 export default auth
-// import Vue from 'vue';
-// import Vuex from 'vuex';
-// const auth = new Vuex.Store({
-//   state: {
-//     userInfo: {
-//       userId: window.sessionStorage.getItem('userId') || NaN,
-//       token: window.sessionStorage.getItem('token') || '',
-//     },
-//     role: ''
-//   },
-//   mutations: {
-//     saveUserToken(state: any, data: any) {
-//       state.userInfo.userId = data.userId;
-//       state.userInfo.token = data.token;
-
-//       window.sessionStorage.setItem('userId', data.userId.toString());
-//       window.sessionStorage.setItem('token', data.token);
-//     },
-//     saveRole(state, data) {
-//       state.role = data.roles.toString()
-//     }
-//   },
-//   actions: {
-//     saveUser({ commit}: any , data: any ) {
-//       commit('saveUserToken', data);
-//       this.dispatch('saverole', data)
-//     },
-//     saverole({commit}, data) {
-//       commit('saveRole', data)
-//     }
-//   }
-// })
-// export default auth

@@ -6,7 +6,7 @@ let data = {
   token: 'asasas@3wec',
   userId: 23,
   userName: 'Anna',
-  roles: ['staff', 'admin']
+  roles: 'staff'
 } // 用于接受生成数据的数组
 // let size = [
 //         '300x250', '250x250', '240x400', '336x280',
