@@ -1,0 +1,34 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**",
+      // "src/views/Daily/**",
+      // "src/views/dataBase/**"
+    ]
+  },
+  "rules": {
+    "no-console": false,
+    "interface-name": false,
+    "no-consecutive-blank-lines": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [false,"always"],
+    "semicolon": [false,"always"],
+    "adjacent-overload-signatures": true,   // 强制函数重载为连续的。
+    "ban-comma-operator": true, // 禁止逗号运算符
+    "no-empty-interface":true, //禁止空接口 {}
+    "no-unnecessary-type-assertion": true, //如果类型断言没有改变表达式的类型就发出警告
+    "promise-function-async": true, // 要求异步函数返回promise
+    "typedef-whitespace": false, //类型声明的冒号之前是否需要空格
+    "await-promise": true,  //警告不是一个promise的await
+    "curly":  true, //for if do while 要有括号
+    "forin": true, //用for in 必须用if进行过滤
+    "import-blacklist": true, //允许使用import require导入具体的模块
+    "no-return-await": true, //不允许return await
+    "arrow-parens":  true //箭头函数定义的参数需要括号
+  }
+}

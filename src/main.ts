@@ -7,11 +7,13 @@ import vueAxios from 'vue-axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../src/assets/css/base.css'
-require('mockjs')
 
 Vue.use(vueAxios, axios)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+
+require('./mock/mock.js')
+
 
 new Vue({
   router,

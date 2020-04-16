@@ -8,7 +8,7 @@ module.exports = {
         target: "http://localhost:9000",
         changeOrigin: true,
         pathRewrite: {
-          "^/api": "/mock"
+          "^/api": ""
         }
       }
     }
