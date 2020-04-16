@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 export const contantRouteMap = [
   // {
   //   path: '/',
-  //   redirect: '/login'
+  //   redirect: '/home'
   // },
   // {
   //   path: '/',
@@ -82,7 +82,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let storeRoles: any = store.state
-  const roles = storeRoles.auth.roles;
+  const roles = storeRoles.auth.roles || window.sessionStorage.getItem('roles');
   const token = window.sessionStorage.getItem('token')
   Nprogress.start()
   if (token) {
@@ -95,6 +95,8 @@ router.beforeEach((to, from, next) => {
       // let state: any = store.state
       if (storeAddRoute.auth.addRouters.length === 0) {
         store.dispatch('getUserInfo', {
+          token: 'wrwr@fdf',
+          userId: 23,
           roles
         }).then(() => {
           let storeRoles: any = store.state
@@ -102,12 +104,14 @@ router.beforeEach((to, from, next) => {
           store.dispatch('GenerateRoutes', {
             roles
           }).then(() => {
-            console.log('*********', router)
             let storeaddRouters: any = store.state
             const addRoutes = storeaddRouters.auth.addRoutes;
             router.addRoutes(addRoutes);
-            console.log('----------', store.state)
             next()
+            // next({
+            //   ...to as any,
+            //   replace: true
+            // })
           })
         }).catch(err => {})
       } else {

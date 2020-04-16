@@ -9,33 +9,25 @@
 </template>
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
+import * as UserApi from '../api/user'
 @Component
 export default class login extends Vue{
   private userInfo = {}
   private async doLoginIn() {
-    // let res: any = await UserApi.login(this.userInfo)
-    // console.log(res.data)
-    // if (res.data.success) {
-    //   this.$store.dispatch('saveUser', {
-    //     userId: res.data.data.userId,
-    //     token: res.data.data.token,
-    //   });
+    // this.axios.post('/data/tableData', this.userInfo).then((res: any) => {
+    //   console.log('122', res.data, this.$store)
+    //   this.$store.dispatch('getUserInfo', res.data)
     //   this.$router.push({ path: '/'})
-    // }
-    this.axios.post('/data/tableData', this.userInfo).then((res: any) => {
-      console.log('122', res.data, this.$store)
-      this.$store.dispatch('getUserInfo', res.data)
-      this.$router.push({ path: '/'})
-    }).catch((res: any) => {
-      console.log(res.data)
-    })
-    // console.log(this.userInfo)
-    // UserApi.login(this.userInfo).then((res: any) => {
+    // }).catch((res: any) => {
     //   console.log(res.data)
-    //   if (res.data.success) {
-    //     this.$router.push({ path: '/'})
-    //   }
     // })
+    // console.log(this.userInfo)
+    UserApi.login(this.userInfo).then((res: any) => {
+      console.log(res.data)
+      if (res.data.success) {
+        this.$router.push({ path: '/'})
+      }
+    })
     // this.$store.dispatch('saveUser', this.userInfo).then(() => {
     //   this.$router.push({ path: '/' }); //登录成功之后重定向到首页
     // }).catch(err => {

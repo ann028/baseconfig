@@ -31,7 +31,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 @Component
-export default class head extends Vue{
+export default class headerNav extends Vue{
  private userInfo: any = {}
 };
 </script>

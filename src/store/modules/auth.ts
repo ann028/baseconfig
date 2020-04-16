@@ -1,4 +1,5 @@
 import { contantRouteMap, asyncRouteMap } from '../../router';
+import Vue from 'vue'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
     console.log(route.meta.role)
@@ -18,7 +19,8 @@ const auth = {
     routers: contantRouteMap,
     addRouters: [],
     use: {},
-    Token: ''
+    userId: '',
+    token: ''
   },
   mutations: {
     // saveUserToken(state: any, data: any) {
@@ -36,12 +38,18 @@ const auth = {
     SET_ROUTERS: (state: any, routers: any) => {
       state.addRoutes = routers;
       state.routers = contantRouteMap.concat(routers);
+      console.log('routea', state.routers)
     },
     SET_USER(state: any, data: any) {
       state.user = data
+      state.userId = data.userId
       state.token = data.token
-      state.roles = data.roles.toString()
-    }
+      state.roles = data.roles
+
+      window.sessionStorage.setItem('userId', data.userId);
+      window.sessionStorage.setItem('token', data.token);
+      window.sessionStorage.setItem('roles', data.roles);
+    },
   },
   actions: {
     saveUser({ commit}: any , data: any ) {
@@ -71,7 +79,7 @@ const auth = {
         })
         // 两层过滤就得到一个只能role有权限能访问的路由map
         asyncRouteMap[0].children = accessedRouters;
-        console.log('添加路由', accessedRouters)
+        console.log('添加路由', asyncRouteMap)
         commit('SET_ROUTERS', asyncRouteMap);
         // 把这个动态路由图，放到state的addRoutes里，也追加到固态路由图里
         resolve();
@@ -79,9 +87,24 @@ const auth = {
     },
     getUserInfo({commit}: any, data: any) {
       commit('SET_USER', data)
-      window.sessionStorage.setItem('userId', data.userId);
-      window.sessionStorage.setItem('token', data.token);
-      window.sessionStorage.setItem('roles', data.roles.toString());
+      // return new Promise(resolve => {
+      //  console.log('this', this, Vue)
+      // Vue.axios.post('/data/tableData').then((res: any) => {
+      //   console.log(res.data)
+      //  if(!res.success) {
+      //   window.sessionStorage.setItem('token', ' ');
+      //   // setTimeout(() => {
+      //   //   window.location.href = '/login';
+      //   // }, 800);
+      //  } else {
+      //    console.log('sha', res.data)
+      //   commit('SET_USER', data)
+      //   resolve()
+      //  }
+      // }).catch((res: any) => {
+      //   console.log(res.data)
+      // })
+      // })
     }
   }
 }

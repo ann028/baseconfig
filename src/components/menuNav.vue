@@ -59,21 +59,13 @@
         <i class="el-icon-menu"></i>
         <span slot="title">导航二</span>
       </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 @Component
-export default class menu extends Vue{
+export default class menuNav extends Vue{
   private roles: any = []
   private staffRoles: any = []
 
@@ -85,21 +77,22 @@ export default class menu extends Vue{
 
   private mounted() {
     this.staffRoles = this.$store.state.auth.roles || sessionStorage.getItem('roles')
+    console.log('menu', this.$store.state.auth.routers)
   }
 
-  private hasRoles (roles: any) {
-    console.log(sessionStorage.getItem('roles'))
-    let staffRoles: any = sessionStorage.getItem('roles')
-    staffRoles = staffRoles.split(',')
-    for (let role of roles) {
-      for (let staffRole of staffRoles) {
-        if (staffRole === role) {
-          return true
-        }
-      }
-    }
-    return false
-  }
+  // private hasRoles (roles: any) {
+  //   console.log(sessionStorage.getItem('roles'))
+  //   let staffRoles: any = sessionStorage.getItem('roles')
+  //   staffRoles = staffRoles.split(',')
+  //   for (let role of roles) {
+  //     for (let staffRole of staffRoles) {
+  //       if (staffRole === role) {
+  //         return true
+  //       }
+  //     }
+  //   }
+  //   return false
+  // }
 }
 </script>
 <style lang="less" scoped>

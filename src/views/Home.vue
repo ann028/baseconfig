@@ -1,9 +1,9 @@
 <template>
   <div class="home" >
     <!-- <span @click="doAbout">home</span> -->
-    <Head class="head mb20"></Head>
+    <header-nav class="head mb20"></header-nav>
     <section class="flex">
-      <Menu class="menu"></Menu>
+      <menuNav class="menu"></menuNav>
       <router-view></router-view>
     </section>
   </div>
@@ -11,16 +11,18 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
-import Head from '../components/head.vue'
-import Menu from '../components/menu.vue'
+import headerNav from '../components/headerNav.vue'
+import menuNav from '../components/menuNav.vue'
 @Component({
   components: {
-    Head,
-    Menu
+    headerNav,
+    menuNav
   }
 })
 export default class Home extends Vue {
-  
+  private mounted() {
+    console.log('home')
+  }
 }
 </script>
 <style lang="less" scoped>

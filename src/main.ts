@@ -13,7 +13,7 @@ Vue.use(vueAxios, axios)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
-require('./mock/mock.js')
+require('./mock')
 
 
 new Vue({
