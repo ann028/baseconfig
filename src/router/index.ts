@@ -22,18 +22,15 @@ export const contantRouteMap = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },
-]
-
-export const asyncRouteMap = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    meta: {
-      title: '导航1',
-      role: ['admin'],
-      icon: ''
-    },
+    // meta: {
+    //   title: '导航1',
+    //   role: ['admin'],
+    //   icon: ''
+    // },
     children: [
       {
         path: 'userInfo',
@@ -69,6 +66,62 @@ export const asyncRouteMap = [
             component: () => import('../views/Nav1.vue'),
             meta: {
               title: '列表2',
+              role: ['admin', 'staff'],
+              icon: ''
+            },
+          }
+        ]
+      },
+    ]
+  }
+]
+
+export const asyncRouteMap = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    // meta: {
+    //   title: '导航1',
+    //   role: ['admin'],
+    //   icon: ''
+    // },
+    children: [
+      {
+        path: 'userInfo',
+        name: 'userInfo',
+        component: () => import('../views/About.vue'),
+        meta: {
+          title: '列表3',
+          role: ['AGENT', 'CLERK', 'OPERATOR'],
+        }
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: () => import('../views/About.vue'),
+        meta: {
+          title: '列表1',
+          role: ['admin', 'staff'],
+          icon: ''
+        },
+      },
+      {
+        path: '/nav1',
+        name: 'Nav1',
+        component: () => import('../views/Nav1.vue'),
+        meta: {
+          title: '列表2',
+          role: ['admin', 'staff'],
+          icon: ''
+        },
+        children: [
+          {
+            path: '/nav1',
+            name: 'Nav1',
+            component: () => import('../views/Nav1.vue'),
+            meta: {
+              title: '列表2-1',
               role: ['admin', 'staff'],
               icon: ''
             },

@@ -5,12 +5,12 @@ import {Message} from 'element-ui'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
     // return !!route.meta.role.find((v: any) => roles === v);
-    return route.meta.role.filter((v: any) =>{
-      v == window.sessionStorage.getItem('roles')
+    let arr = route.meta.role.filter((v: any) =>{
+      return v === window.sessionStorage.getItem('roles')
     })
-  } else {
-    return true
-  }
+    console.log(arr)
+    return arr;
+  } 
 }
 const auth = {
   state: {
@@ -46,16 +46,15 @@ const auth = {
         const asyncChildRouterMap: any = asyncRouteMap[0].children;
         // 路由地图的第一个对象的子路由对象们，过滤一下：如果存在有当前的role匹配到的路由对象，嗯接着走：当前子路由如果还有子路由，过滤出含有权限的子路由后，这整个父路由也被过滤出来，如果没有，就不过滤了
         const accessedRouters = asyncChildRouterMap.filter((v: any) => {
-          if (hasPermission(roles, v)) {
-            console.log('roles000000', roles)
+          if (hasPermission(roles, v).length) {
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter((child: any) => {
-                if (hasPermission(roles, child)) {
+                if (hasPermission(roles, child).length) {
                   return child
                 }
                 return false;
               });
-            }
+            } 
             return v;
           }
           return false;
