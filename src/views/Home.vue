@@ -1,7 +1,7 @@
 <template>
   <div class="home" >
     <!-- <span @click="doAbout">home</span> -->
-    <header-nav class="head mb20"></header-nav>
+    <headerNav class="head mb20"></headerNav>
     <section class="flex">
       <menuNav class="menu"></menuNav>
       <router-view></router-view>

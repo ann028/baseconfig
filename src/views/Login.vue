@@ -15,10 +15,11 @@ export default class login extends Vue{
   private userInfo = {}
   private async doLoginIn() {
     UserApi.login(this.userInfo).then((res: any) => {
-      console.log(res.data)
       if (res.data.success) {
         this.$store.dispatch('getUserLogin', res.data.data)
         this.$router.push({ path: '/'})
+      } else {
+        this.$message.error(res.data.msg)
       }
     })
   }

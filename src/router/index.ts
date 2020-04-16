@@ -36,6 +36,15 @@ export const asyncRouteMap = [
     },
     children: [
       {
+        path: 'userInfo',
+        name: 'userInfo',
+        component: () => import('../views/About.vue'),
+        meta: {
+          title: '列表3',
+          role: ['AGENT', 'CLERK', 'OPERATOR'],
+        }
+      },
+      {
         path: '/about',
         name: 'About',
         component: () => import('../views/About.vue'),
@@ -50,9 +59,21 @@ export const asyncRouteMap = [
         component: () => import('../views/Nav1.vue'),
         meta: {
           title: '列表2',
-          role: ['admin', 'staff'],
+          role: ['admin'],
           icon: ''
         },
+        children: [
+          {
+            path: '/nav1',
+            name: 'Nav1',
+            component: () => import('../views/Nav1.vue'),
+            meta: {
+              title: '列表2',
+              role: ['admin', 'staff'],
+              icon: ''
+            },
+          }
+        ]
       },
     ]
   }
@@ -88,14 +109,11 @@ router.beforeEach((to, from, next) => {
   if (token) {
     // next();
     if (to.path === '/login') { // 如果是登录页面的话，直接next()
-      console.log('1')
       next();
     } else { // 否则 跳转到登录页面
-      console.log(2)
       // next();
       let storeAddRoute: any = store.state
-      let state: any = store.state
-      if (storeAddRoute.auth.addRouters.length === 0) {
+      if (storeAddRoute.auth.addRoutes.length === 0) {
         store.dispatch('getUserInfo', {
           roles
         }).then(() => {
@@ -107,6 +125,7 @@ router.beforeEach((to, from, next) => {
             let storeaddRouters: any = store.state
             const addRoutes = storeaddRouters.auth.addRoutes;
             router.addRoutes(addRoutes);
+            console.log(addRoutes)
             next()
             // next({
             //   ...to as any,
