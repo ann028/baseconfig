@@ -14,26 +14,13 @@ import * as UserApi from '../api/user'
 export default class login extends Vue{
   private userInfo = {}
   private async doLoginIn() {
-    // this.axios.post('/data/tableData', this.userInfo).then((res: any) => {
-    //   console.log('122', res.data, this.$store)
-    //   this.$store.dispatch('getUserInfo', res.data)
-    //   this.$router.push({ path: '/'})
-    // }).catch((res: any) => {
-    //   console.log(res.data)
-    // })
-    // console.log(this.userInfo)
     UserApi.login(this.userInfo).then((res: any) => {
       console.log(res.data)
       if (res.data.success) {
+        this.$store.dispatch('getUserLogin', res.data.data)
         this.$router.push({ path: '/'})
       }
     })
-    // this.$store.dispatch('saveUser', this.userInfo).then(() => {
-    //   this.$router.push({ path: '/' }); //登录成功之后重定向到首页
-    // }).catch(err => {
-    //   this.$message.error(err); //登录失败提示错误
-    // });
-
   }
 }
 </script>

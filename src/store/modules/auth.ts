@@ -1,5 +1,7 @@
 import { contantRouteMap, asyncRouteMap } from '../../router';
 import Vue from 'vue'
+import * as UserApi from '../../api/user'
+import {Message} from 'element-ui'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
     console.log(route.meta.role)
@@ -10,10 +12,6 @@ function hasPermission(roles: any, route: any) {
 }
 const auth = {
   state: {
-    // userInfo: {
-    //   userId: window.sessionStorage.getItem('userId') || NaN,
-    //   token: window.sessionStorage.getItem('token') || '',
-    // },
     roles: '',
     staffRoles: [],
     routers: contantRouteMap,
@@ -23,40 +21,24 @@ const auth = {
     token: ''
   },
   mutations: {
-    // saveUserToken(state: any, data: any) {
-    //   state.userInfo.userId = data.userId;
-    //   state.userInfo.token = data.token;
-    //   console.log('=========', data.userId)
-    //   window.sessionStorage.setItem('userId', data.userId);
-    //   window.sessionStorage.setItem('token', data.token);
-    // },
-    saveRole(state: any, data: any) {
-      state.staffRoles = data.roles
-      state.roles = data.roles.toString()
-      window.sessionStorage.setItem('roles', data.roles.toString());
-    },
     SET_ROUTERS: (state: any, routers: any) => {
       state.addRoutes = routers;
       state.routers = contantRouteMap.concat(routers);
       console.log('routea', state.routers)
     },
     SET_USER(state: any, data: any) {
-      state.user = data
-      state.userId = data.userId
-      state.token = data.token
-      state.roles = data.roles
-
-      window.sessionStorage.setItem('userId', data.userId);
-      window.sessionStorage.setItem('token', data.token);
-      window.sessionStorage.setItem('roles', data.roles);
+      console.log('data', data)
+      state.user = data.data
+      state.userId = data.data.userId
+      state.token = data.data.token
+      state.roles = data.data.roles
     },
   },
   actions: {
-    saveUser({ commit}: any , data: any ) {
-      commit('saveUserToken', data);
-    },
-    setRoles({commit}: any, data: any) {
-      commit('saveRole', data)
+    getUserLogin({commit}: any, data: any) {
+      window.sessionStorage.setItem('userId', data.userId);
+      window.sessionStorage.setItem('token', data.token);
+      window.sessionStorage.setItem('roles', data.roles);
     },
     GenerateRoutes({ commit }: any, data: any) {
       return new Promise(resolve => {
@@ -86,24 +68,24 @@ const auth = {
       })
     },
     getUserInfo({commit}: any, data: any) {
-      commit('SET_USER', data)
+      // commit('SET_USER', data)
       // return new Promise(resolve => {
-      //  console.log('this', this, Vue)
-      // Vue.axios.post('/data/tableData').then((res: any) => {
-      //   console.log(res.data)
-      //  if(!res.success) {
-      //   window.sessionStorage.setItem('token', ' ');
-      //   // setTimeout(() => {
-      //   //   window.location.href = '/login';
-      //   // }, 800);
-      //  } else {
-      //    console.log('sha', res.data)
-      //   commit('SET_USER', data)
-      //   resolve()
-      //  }
+        UserApi.getUserInfo().then((res: any) => {
+          console.log('+++++++++++', res.data)
+          if(!res.data.success) {
+            Message.error('登录过期，请重新登录!');
+            window.sessionStorage.setItem('token', ' ');
+            window.sessionStorage.setItem('userId', ' ');
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 800);
+          } else {
+            console.log('shibai', res.data)
+            commit('SET_USER', res.data)
+          }
+        })
       // }).catch((res: any) => {
       //   console.log(res.data)
-      // })
       // })
     }
   }

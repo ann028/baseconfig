@@ -88,15 +88,15 @@ router.beforeEach((to, from, next) => {
   if (token) {
     // next();
     if (to.path === '/login') { // 如果是登录页面的话，直接next()
+      console.log('1')
       next();
     } else { // 否则 跳转到登录页面
+      console.log(2)
       // next();
       let storeAddRoute: any = store.state
-      // let state: any = store.state
+      let state: any = store.state
       if (storeAddRoute.auth.addRouters.length === 0) {
         store.dispatch('getUserInfo', {
-          token: 'wrwr@fdf',
-          userId: 23,
           roles
         }).then(() => {
           let storeRoles: any = store.state
