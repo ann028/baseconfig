@@ -1,20 +1,10 @@
 <template>
-  <main>
-    <div>
-      <el-input placeholder="用户名" v-model="userInfo.loginName">
-        <i slot="suffix" class="el-input__icon el-icon-date"></i>
-      </el-input>
-      <el-input placeholder="密码" v-model="userInfo.password" class="mt20">
-        <i slot="suffix" class="el-input__icon el-icon-date"></i>
-      </el-input>
-      <el-button type="primary" round class="mt20" @click="doLoginIn">登录</el-button>
-    </div>
-  </main>
+  <div>
+    login
+  </div>
 </template>
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
-import * as UserApi from '../api/user'
-@Component
+import {Vue} from 'vue-property-decorator'
 export default class login extends Vue{
   private userInfo = {}
   private async doLoginIn() {
@@ -58,12 +48,3 @@ export default class login extends Vue{
   }
 }
 </script>
-<style lang="less" scoped>
-main{
-  width: 100%;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

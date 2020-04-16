@@ -2,8 +2,6 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index'
-import Nprogress from 'nprogress';
-import 'nprogress/nprogress.css';
 
 Vue.use(VueRouter)
 
@@ -58,11 +56,6 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    meta: {
-      title: '列表展示',
-      role: ['admin', 'staff'],
-      icon: ''
-    },
     component: Home,
     children: [
       {
@@ -72,11 +65,7 @@ const routes: Array<RouteConfig> = [
       }
     ]
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login.vue'),
-  },
+ 
 ]
 
 const router = new VueRouter({
@@ -90,12 +79,11 @@ router.beforeEach((to, from, next) => {
   let roles: any = store.state
   roles = roles.auth.roles
   const token = window.sessionStorage.getItem('token')
-  Nprogress.start()
   // to.matched.some((record) => {
-  //   console.log(record.meta)
+  //   console.log(record)
   // })
-  // console.log(to.matched.some((record) => record.meta.auth))
-  // if (to.matched.some((record) => record.meta.auth)) {
+  console.log(to.matched.some((record) => record.meta.auth))
+  if (to.matched.some((record) => record.meta.auth)) {
     if (token) {
       // next();
       if (to.path === '/login') { // 如果是登录页面的话，直接next()
@@ -129,21 +117,12 @@ router.beforeEach((to, from, next) => {
         });
       }
     }
-  // } else {
-  //   if (to.path === '/login') { // 如果是登录页面的话，直接next()
-  //     next();
-  //   } else { // 否则 跳转到登录页面
-  //     next({
-  //       path: '/login'
-  //     });
-  //   }
-  // }
+  }
 });
 
 router.afterEach(() => {
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
-  Nprogress.done()
 })
 
 
