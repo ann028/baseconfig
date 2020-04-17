@@ -114,6 +114,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('====next====', next)
   let storeRoles: any = store.state
   const roles = storeRoles.auth.roles || window.sessionStorage.getItem('roles');
   const token = window.sessionStorage.getItem('token')

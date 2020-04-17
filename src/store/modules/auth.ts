@@ -5,7 +5,6 @@ import {Message} from 'element-ui'
 import router from '@/router'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
-    // return !!route.meta.role.find((v: any) => roles === v);
     let arr = route.meta.role.filter((v: any) =>{
       return v === window.sessionStorage.getItem('roles')
     })
