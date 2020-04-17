@@ -2,6 +2,7 @@ import { contantRouteMap, asyncRouteMap } from '../../router';
 import Vue from 'vue'
 import * as UserApi from '../../api/user'
 import {Message} from 'element-ui'
+import router from '@/router'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
     // return !!route.meta.role.find((v: any) => roles === v);
@@ -18,7 +19,7 @@ const auth = {
     staffRoles: [],
     routers: contantRouteMap,
     addRoutes: [],
-    use: {},
+    user: {},
     userId: '',
     token: ''
   },
@@ -28,14 +29,27 @@ const auth = {
       state.routers = contantRouteMap.concat(routers);
     },
     SET_USER(state: any, data: any) {
-      state.user = data.data
-      state.userId = data.data.userId
-      state.token = data.data.token
-      state.roles = data.data.roles
+      state.user = data
+      state.userId = data.userId
+      state.token = data.token
+      state.roles = data.roles
     },
+    CLEARE_TOKEN(state: any, data: any) {
+      state.user = {}
+      state.userId = ''
+      state.token = ''
+
+      window.sessionStorage.removeItem('userId');
+      window.sessionStorage.removeItem('token');
+      window.sessionStorage.removeItem('roles');
+
+      router.push({path: '/login'})
+      Message.success('您已退出登录')
+    }
   },
   actions: {
     getUserLogin({commit}: any, data: any) {
+      commit('SET_USER', data)
       window.sessionStorage.setItem('userId', data.userId);
       window.sessionStorage.setItem('token', data.token);
       window.sessionStorage.setItem('roles', data.roles);
@@ -43,6 +57,7 @@ const auth = {
     GenerateRoutes({ commit }: any, data: any) {
       return new Promise(resolve => {
         const { roles } = data;
+        // console.log('==========', contantRouteMap[1].children, asyncRouteMap[0].children)
         const asyncChildRouterMap: any = asyncRouteMap[0].children;
         // 路由地图的第一个对象的子路由对象们，过滤一下：如果存在有当前的role匹配到的路由对象，嗯接着走：当前子路由如果还有子路由，过滤出含有权限的子路由后，这整个父路由也被过滤出来，如果没有，就不过滤了
         const accessedRouters = asyncChildRouterMap.filter((v: any) => {
@@ -78,12 +93,17 @@ const auth = {
               window.location.href = '/login';
             }, 800);
           } else {
-            commit('SET_USER', res.data)
+            commit('SET_USER', res.data.data)
           }
         })
       // }).catch((res: any) => {
       //   console.log(res.data)
       // })
+    },
+    async logout({commit}: any, data: any) {
+      // await UserApi.logout()
+      console.log('logout')
+      commit('CLEARE_TOKEN')
     }
   }
 }

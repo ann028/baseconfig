@@ -4,3 +4,15 @@
 .flex{
   display: flex;
 }
+.col{
+  display: flex;
+  flex-direction: column;
+}
+.main_space{
+  display: flex;
+  justify-content: space-between;
+}
+.main_alignCenter{
+  display: flex;
+  align-items: center
+}

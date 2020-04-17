@@ -7,3 +7,7 @@ export function login(data: any){
 export function getUserInfo(){
   return apiService.get(`/getInfo`)
 }
+
+export function logout(){
+  return apiService.get(`/getInfo`)
+}

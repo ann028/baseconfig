@@ -1,10 +1,9 @@
 <template>
-  <div class="home" >
-    <!-- <span @click="doAbout">home</span> -->
-    <headerNav class="head mb20"></headerNav>
-    <section class="flex">
-      <menuNav class="menu"></menuNav>
-      <router-view></router-view>
+  <div class="home col" >
+    <headerNav class="head"></headerNav>
+    <section class="flex page_content">
+      <menuNav class="menu col"></menuNav>
+      <router-view class="router_view col"></router-view>
     </section>
   </div>
 </template>
@@ -27,41 +26,29 @@ export default class Home extends Vue {
 </script>
 <style lang="less" scoped>
 .home {
-  // display: flex;
-  // flex-direction: column;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #f4f4f6;
   .head {
     height: 60px;
+    width: 100%;
   }
-  // .menu {
-  //   position: fixed;
-  //   top: 60px;
-  //   left: 0;
-  //   height: 100vh;
-  // }
-  .main {
-    margin-right: 10px;
-    height: 100%;
-    box-sizing: border-box;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    // justify-content: center;
-    // flex-wrap: wrap;
-    overflow-y: scroll;
-    margin-left: 220px;
-    .router-view {
+  .page_content{
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    .menu{
+      width: 220px;
+      min-height: calc(100vh - 80px);
+    }
+    .router_view{
+      // max-width: calc(100vw - 240px);
+      // min-height: calc(100vh - 112px);
+      background:rgba(245,247,250,1);
+      box-sizing: border-box;
+      padding: 20px;
+      border-radius:12px;
       width: 100%;
-      flex: 1;
-      align-self: flex-start;
     }
-    .footer {
-      align-self: flex-end;
-    }
-  }
-  .clear_ml {
-    margin-left: 5px;
   }
 }
 </style>

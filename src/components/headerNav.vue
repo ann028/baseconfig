@@ -1,30 +1,17 @@
 <template>
-  <div class="head flex">
-    head
-    <!-- <div class="logo flex1">
-      <img src="../assets/img/logo-new.png" class="logo-img mt10 ml20" />
+  <div class="head flex main_space main_alignCenter" style="line-height: 60px">
+    <div class="logo flex1">
+      head
     </div>
     <div class="user cur-pointer">
-      <div class="flex1">
-        <img :src="userInfo.avatar" class="user-info mr20 mt10" />
-      </div>
-      <div class="popover">
-        <div class="popover-body">
-          <div class="user-name">
-            <span>{{userInfo.userName}}</span>
-          </div>
-          <div class="line"></div>
-          <div class="text-div mt8 cur-pointer" @click="userInfoMgr">
-            <i class="iconfont iconset mr8"></i>
-            <span class="text">账号设置</span>
-          </div>
-          <div class="text-div cur-pointer" @click="logout">
-            <i class="iconfont iconinput_exit mr8"></i>
-            <span class="text">退出</span>
-          </div>
+      <section>
+        <div class="user-info">{{user.userName}}</div>
+        <div class="popover" style="line-height: 20px;">
+          <i class="el-icon-s-tools" style="font-size: 20px;"></i>
+          <span @click="doLogout" style="margin-left: 10px; font-size: 16px; cursor: pointer;">退出登录</span>
         </div>
-      </div>
-    </div> -->
+      </section>
+    </div>
   </div>
 </template>
 
@@ -33,22 +20,32 @@ import {Vue, Component} from 'vue-property-decorator'
 @Component
 export default class headerNav extends Vue{
  private userInfo: any = {}
+ private get user() {
+   return this.$store.state.auth.user
+ }
+ private doLogout() {
+   this.$store.dispatch('logout')
+ }
+ private mounted() {
+ }
 };
 </script>
 
 <style lang="less" scoped>
 .head {
-  height: 60px;
+  height: 60px; 
   background: rgba(255, 255, 255, 1);
+  padding: 0 40px;
+  box-sizing: border-box;
   .logo {
     height: 60px;
     width: 190px;
   }
   .user {
     .user-info {
-      float: right;
-      width: 40px;
-      height: 40px;
+      // float: right;
+      width: 60px;
+      height: 60px;
       border-radius: 50px;
     }
     &:hover .popover {
@@ -69,6 +66,7 @@ export default class headerNav extends Vue{
     border: 1px solid rgba(227, 227, 227, 1);
     z-index: 10;
     cursor: default;
+    padding: 20px;
     .user-name {
       margin-left: 9px;
       height: 26px;
@@ -84,18 +82,6 @@ export default class headerNav extends Vue{
       background: rgba(203, 203, 212, 1);
       margin-left: 9px;
       margin-top: 10px;
-    }
-
-    .text-div {
-      width: 178px;
-      height: 35px;
-      margin-left: 9px;
-      .text {
-        line-height: 19px;
-        font-size: 14px;
-        font-family: MicrosoftYaHei;
-        color: rgba(51, 51, 51, 1);
-      }
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="menu">
-    <!-- :default-active="filtersRoute" -->
     <el-menu
       ref="menu"
+      :default-active="defaultMenu"
       active-text-color="#2C67FD"
       :default-openeds="defaultOpeneds"
     >
@@ -12,12 +12,12 @@
             <i class="el-icon-location"></i>
             <span>{{menu.meta.title}}</span>
           </template>
-         <el-menu-item :index="childMenu.name" v-for="(childMenu, i) in menu.children" :key="i">
+         <el-menu-item :index="childMenu.name" v-for="(childMenu, i) in menu.children" :key="i" @click="toRoute(childMenu.name)">
             <i class="el-icon-setting"></i>
             <span slot="title">{{childMenu.meta.title}}</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item v-else :index="menu.name">
+        <el-menu-item v-else :index="menu.name" @click="toRoute(menu.name)">
           <i class="el-icon-setting"></i>
           <span slot="title">{{menu.meta.title}}</span>
         </el-menu-item>
@@ -27,14 +27,14 @@
   </div>
 </template>
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
+import {Vue, Component, Watch} from 'vue-property-decorator'
 @Component
 export default class menuNav extends Vue{
   private roles: any = []
   private staffRoles: any = []
   private filterMenu: any = []
   private defaultOpeneds: any = []
-  private filtersRoute: any = []
+  private filtersRoute: any = ''
 
   private toRoute(name: any) {
     if ( this.$route.name !== name) {
@@ -48,9 +48,15 @@ export default class menuNav extends Vue{
     this.filterMenu = addRoutes[0].children.filter((item: any) => {
       return item.meta.title
     })
-    console.log('filtermenu', this.filterMenu)
   }
- 
+  
+  get defaultMenu() {
+    if (this.$route.matched && this.$route.matched.length > 2) {
+      return this.$route.matched[2].name
+    } else {
+      return this.$route.name + ''
+    }
+  }
   
   // private hasRoles (roles: any) {
   //   console.log(sessionStorage.getItem('roles'))
@@ -78,7 +84,11 @@ export default class menuNav extends Vue{
 <style lang="less" scoped>
 .menu {
   width: 200px;
-  height: 100vh;
+  height: 100%;
   background: rgba(255, 255, 255, 1);
+}  
+/deep/.el-menu {
+  border: none
 }
+
 </style>

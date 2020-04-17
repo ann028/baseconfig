@@ -22,58 +22,6 @@ export const contantRouteMap = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    // meta: {
-    //   title: '导航1',
-    //   role: ['admin'],
-    //   icon: ''
-    // },
-    children: [
-      {
-        path: 'userInfo',
-        name: 'userInfo',
-        component: () => import('../views/About.vue'),
-        meta: {
-          title: '列表3',
-          role: ['AGENT', 'CLERK', 'OPERATOR'],
-        }
-      },
-      {
-        path: '/about',
-        name: 'About',
-        component: () => import('../views/About.vue'),
-        meta: {
-          title: '列表1',
-          role: ['admin', 'staff'],
-          icon: ''
-        },
-      },{
-        path: '/nav1',
-        name: 'Nav1',
-        component: () => import('../views/Nav1.vue'),
-        meta: {
-          title: '列表2',
-          role: ['admin'],
-          icon: ''
-        },
-        children: [
-          {
-            path: '/nav1',
-            name: 'Nav1',
-            component: () => import('../views/Nav1.vue'),
-            meta: {
-              title: '列表2',
-              role: ['admin', 'staff'],
-              icon: ''
-            },
-          }
-        ]
-      },
-    ]
-  }
 ]
 
 export const asyncRouteMap = [
@@ -81,19 +29,25 @@ export const asyncRouteMap = [
     path: '/',
     name: 'Home',
     component: Home,
-    // meta: {
-    //   title: '导航1',
-    //   role: ['admin'],
-    //   icon: ''
-    // },
+    redirect: '/index',
     children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('../views/index.vue'),
+        meta: {
+          title: '首页',
+          role: ['admin', 'staff'],
+          icon: 'icon-nav-home'
+        }
+      },
       {
         path: 'userInfo',
         name: 'userInfo',
         component: () => import('../views/About.vue'),
         meta: {
           title: '列表3',
-          role: ['AGENT', 'CLERK', 'OPERATOR'],
+          role: ['admin'],
         }
       },
       {
@@ -129,6 +83,11 @@ export const asyncRouteMap = [
         ]
       },
     ]
+  },
+  {
+    path: '*',
+    name: '404',
+    component: () => import('../views/notFound.vue')
   }
 ]
 
@@ -150,7 +109,7 @@ export const asyncRouteMap = [
 
 const router = new VueRouter({
   mode: 'history',
-  // base: process.env.BASE_URL,
+  base: process.env.BASE_URL,
   routes: contantRouteMap
 })
 
@@ -179,11 +138,11 @@ router.beforeEach((to, from, next) => {
             const addRoutes = storeaddRouters.auth.addRoutes;
             router.addRoutes(addRoutes);
             console.log(addRoutes)
-            next()
-            // next({
-            //   ...to as any,
-            //   replace: true
-            // })
+            // next()
+            next({
+              ...to as any,
+              replace: true
+            })
           })
         }).catch(err => {})
       } else {
