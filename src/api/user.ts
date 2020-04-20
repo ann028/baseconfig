@@ -1,13 +1,13 @@
 import apiService from './api-service'
 
-export function login(data: any){
+export function login(data: any) {
   return apiService.post(`/data/tableData`,  data)
 }
 
-export function getUserInfo(){
+export function getUserInfo() {
   return apiService.get(`/getInfo`)
 }
 
-export function logout(){
+export function logout() {
   return apiService.get(`/getInfo`)
 }

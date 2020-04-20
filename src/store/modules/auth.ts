@@ -5,12 +5,12 @@ import {Message} from 'element-ui'
 import router from '@/router'
 function hasPermission(roles: any, route: any) {
   if (route.meta && route.meta.role) {
-    let arr = route.meta.role.filter((v: any) =>{
+    const arr = route.meta.role.filter((v: any) => {
       return v === window.sessionStorage.getItem('roles')
     })
     console.log(arr)
     return arr;
-  } 
+  }
 }
 const auth = {
   state: {
@@ -20,7 +20,7 @@ const auth = {
     addRoutes: [],
     user: {},
     userId: '',
-    token: ''
+    token: '',
   },
   mutations: {
     SET_ROUTERS: (state: any, routers: any) => {
@@ -44,7 +44,7 @@ const auth = {
 
       router.push({path: '/login'})
       Message.success('您已退出登录')
-    }
+    },
   },
   actions: {
     getUserLogin({commit}: any, data: any) {
@@ -54,7 +54,7 @@ const auth = {
       window.sessionStorage.setItem('roles', data.roles);
     },
     GenerateRoutes({ commit }: any, data: any) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const { roles } = data;
         // console.log('==========', contantRouteMap[1].children, asyncRouteMap[0].children)
         const asyncChildRouterMap: any = asyncRouteMap[0].children;
@@ -68,7 +68,7 @@ const auth = {
                 }
                 return false;
               });
-            } 
+            }
             return v;
           }
           return false;
@@ -84,7 +84,7 @@ const auth = {
       // commit('SET_USER', data)
       // return new Promise(resolve => {
         UserApi.getUserInfo().then((res: any) => {
-          if(!res.data.success) {
+          if (!res.data.success) {
             Message.error('登录过期，请重新登录!');
             window.sessionStorage.setItem('token', ' ');
             window.sessionStorage.setItem('userId', ' ');
@@ -103,7 +103,7 @@ const auth = {
       // await UserApi.logout()
       console.log('logout')
       commit('CLEARE_TOKEN')
-    }
-  }
+    },
+  },
 }
 export default auth

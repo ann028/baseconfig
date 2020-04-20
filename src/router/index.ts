@@ -20,7 +20,7 @@ export const contantRouteMap = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/Login.vue'),
   },
 ]
 
@@ -38,8 +38,8 @@ export const asyncRouteMap = [
         meta: {
           title: '首页',
           role: ['admin', 'staff'],
-          icon: 'icon-nav-home'
-        }
+          icon: 'icon-nav-home',
+        },
       },
       {
         path: 'userInfo',
@@ -48,7 +48,7 @@ export const asyncRouteMap = [
         meta: {
           title: '列表3',
           role: ['admin'],
-        }
+        },
       },
       {
         path: '/about',
@@ -57,7 +57,7 @@ export const asyncRouteMap = [
         meta: {
           title: '列表1',
           role: ['admin', 'staff'],
-          icon: ''
+          icon: '',
         },
       },
       {
@@ -67,7 +67,7 @@ export const asyncRouteMap = [
         meta: {
           title: '列表2',
           role: ['admin', 'staff'],
-          icon: ''
+          icon: '',
         },
         children: [
           {
@@ -77,22 +77,22 @@ export const asyncRouteMap = [
             meta: {
               title: '列表2-1',
               role: ['admin', 'staff'],
-              icon: ''
+              icon: '',
             },
-          }
-        ]
+          },
+        ],
       },
-    ]
+    ],
   },
   {
     path: '*',
     name: '404',
-    component: () => import('../views/notFound.vue')
-  }
+    component: () => import('../views/NotFound.vue'),
+  },
 ]
 
 // const routes: Array<RouteConfig> = [
- 
+
 //   {
 //     path: '/',
 //     name: 'Home',
@@ -110,11 +110,11 @@ export const asyncRouteMap = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: contantRouteMap
+  routes: contantRouteMap,
 })
 
 router.beforeEach((to, from, next) => {
-  let storeRoles: any = store.state
+  const storeRoles: any = store.state
   const roles = storeRoles.auth.roles || window.sessionStorage.getItem('roles');
   const token = window.sessionStorage.getItem('token')
   Nprogress.start()
@@ -124,27 +124,27 @@ router.beforeEach((to, from, next) => {
       next();
     } else { // 否则 跳转到登录页面
       // next();
-      let storeAddRoute: any = store.state
+      const storeAddRoute: any = store.state
       if (storeAddRoute.auth.addRoutes.length === 0) {
         store.dispatch('getUserInfo', {
-          roles
+          roles,
         }).then(() => {
-          let storeRoles: any = store.state
+          const storeRoles: any = store.state
           const roles = storeRoles.auth.roles;
           store.dispatch('GenerateRoutes', {
-            roles
+            roles,
           }).then(() => {
-            let storeaddRouters: any = store.state
+            const storeaddRouters: any = store.state
             const addRoutes = storeaddRouters.auth.addRoutes;
             router.addRoutes(addRoutes);
             console.log(addRoutes)
             // next()
             next({
               ...to as any,
-              replace: true
+              replace: true,
             })
           })
-        }).catch(err => {})
+        }).catch((err) => {})
       } else {
         next()
       }
@@ -154,7 +154,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else { // 否则 跳转到登录页面
       next({
-        path: '/login'
+        path: '/login',
       });
     }
   }

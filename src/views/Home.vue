@@ -15,8 +15,8 @@ import menuNav from '../components/menuNav.vue'
 @Component({
   components: {
     headerNav,
-    menuNav
-  }
+    menuNav,
+  },
 })
 export default class Home extends Vue {
   private mounted() {

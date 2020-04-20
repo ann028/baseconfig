@@ -7,11 +7,11 @@ import router from '@/router'
 // 创建axios实例
 const service = axios.create({
   baseURL: '/api', // api的base_url
-  timeout: 5000 // 请求超时时间
+  timeout: 5000, // 请求超时时间
 })
 
 // request拦截器
-service.interceptors.request.use(config => {
+service.interceptors.request.use((config) => {
   // Do something before request is sent
   // if (store.getters.token) {
   //   config.headers['X-Token'] = getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
@@ -19,7 +19,7 @@ service.interceptors.request.use(config => {
   config.headers['Content-Type'] = 'application/json;charset=utf-8'
   config.headers.Platform = 'PC'
   return config
-}, error => {
+}, (error) => {
   // Do something with request error
   console.log(`请求失败${error}`) // for debug
   return Promise.reject(error)
@@ -33,11 +33,11 @@ service.interceptors.response.use(
       case 100:
         router.push({name: 'login', query: {msg: '登录超时，请重新登录'}})
         break
-      case  50008 || 50012 ||50014:
+      case  50008 || 50012 || 50014:
         MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
-          type: 'warning'
+          type: 'warning',
         }).then(() => {
           // store.dispatch('FedLogOut').then(() => {
           //   location.reload();// 为了重新实例化vue-router对象 避免bug
@@ -74,12 +74,12 @@ service.interceptors.response.use(
   //     } else {
   //       return response.data;
   //     }
-  error => {
+  (error) => {
     console.log('err' + error)// for debug
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 1000,
     })
     return Promise.reject(error)
   })

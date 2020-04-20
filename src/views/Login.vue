@@ -27,16 +27,16 @@
 import {Vue, Component} from 'vue-property-decorator'
 import * as UserApi from '../api/user'
 @Component
-export default class login extends Vue{
+export default class Login extends Vue {
   private userInfo = {}
   private loading: boolean = false
-  public userRules = {
+  private userRules = {
     userName: [
       { required: true, message: '请输入用户名称', trigger: 'blur' },
     ],
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
-    ]
+    ],
   }
   private async doLoginIn(userForm: any) {
     // this.loading = true

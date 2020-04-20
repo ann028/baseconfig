@@ -82,16 +82,16 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 @Component({
-  components: {
-  }
+  components: {},
 })
-export default class about extends Vue {
+export default class About extends Vue {
   private tableData: any = [
     {
       index: 1,
       type: '交易类',
       complateRate: 50,
-    },{
+    },
+    {
       index: 2,
       id: '12987122',
       type: '交易类',
@@ -102,7 +102,8 @@ export default class about extends Vue {
       shop: '王小虎夫妻店',
       shopId: '10333',
       complateRate: 50,
-    }, {
+    },
+    {
       index: 3,
       id: '12987123',
       type: '交易类',
@@ -113,7 +114,8 @@ export default class about extends Vue {
       shop: '王小虎夫妻店',
       shopId: '10333',
       complateRate: 20,
-    }, {
+    },
+    {
       index: 4,
       id: '12987122',
       type: '交易类',
@@ -141,7 +143,7 @@ export default class about extends Vue {
       shop: '王小虎夫妻店',
       shopId: '10333',
       complateRate: 20,
-    }
+    },
   ]
   private spanArr: any[] = []
   private position: any = 0
@@ -167,7 +169,6 @@ export default class about extends Vue {
       //   return [0,0]
       // }
     }
-   
   }
   private rowspan() {
     this.spanArr = []

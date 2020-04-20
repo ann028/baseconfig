@@ -29,7 +29,7 @@
 <script lang="ts">
 import {Vue, Component, Watch} from 'vue-property-decorator'
 @Component
-export default class menuNav extends Vue{
+export default class MenuNav extends Vue {
   private roles: any = []
   private staffRoles: any = []
   private filterMenu: any = []
@@ -44,12 +44,11 @@ export default class menuNav extends Vue{
 
   private mounted() {
     this.staffRoles = this.$store.state.auth.roles || sessionStorage.getItem('roles')
-    let addRoutes: any = this.$store.state.auth.addRoutes
+    const addRoutes: any = this.$store.state.auth.addRoutes
     this.filterMenu = addRoutes[0].children.filter((item: any) => {
       return item.meta.title
     })
   }
-  
   get defaultMenu() {
     if (this.$route.matched && this.$route.matched.length > 2) {
       return this.$route.matched[2].name
@@ -57,7 +56,6 @@ export default class menuNav extends Vue{
       return this.$route.name + ''
     }
   }
-  
   // private hasRoles (roles: any) {
   //   console.log(sessionStorage.getItem('roles'))
   //   let staffRoles: any = sessionStorage.getItem('roles')
@@ -74,9 +72,9 @@ export default class menuNav extends Vue{
 
   private filtersRoutefiltersRoute() {
     if (this.$route.matched && this.$route.matched.length > 2) {
-      this.filtersRoute= this.$route.matched[2].name;
+      this.filtersRoute = this.$route.matched[2].name;
     } else {
-      this.filtersRoute= this.$route.name;
+      this.filtersRoute = this.$route.name;
     }
   }
 }

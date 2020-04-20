@@ -18,15 +18,13 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 @Component
-export default class headerNav extends Vue{
+export default class HeaderNav extends Vue {
  private userInfo: any = {}
  private get user() {
    return this.$store.state.auth.user
  }
  private doLogout() {
    this.$store.dispatch('logout')
- }
- private mounted() {
  }
 };
 </script>
