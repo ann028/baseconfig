@@ -1,5 +1,5 @@
 <template>
-  <div class="home col" >
+  <div class="home col main" >
     <headerNav class="head"></headerNav>
     <section class="flex page_content">
       <menuNav class="menu col"></menuNav>
@@ -27,27 +27,37 @@ export default class Home extends Vue {
 <style lang="less" scoped>
 .home {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #f4f4f6;
   .head {
     height: 60px;
     width: 100%;
   }
+  // .page_content{
+  //   width: 100%;
+  //   min-height: calc(100vh - 80px);
+  //   .menu{
+  //     width: 220px;
+  //     min-height: calc(100vh - 80px);
+  //   }
+  //   .router_view{
+  //     // max-width: calc(100vw - 240px);
+  //     // min-height: calc(100vh - 112px);
+  //     background:rgba(245,247,250,1);
+  //     box-sizing: border-box;
+  //     padding: 20px;
+  //     border-radius:12px;
+  //     width: 100%;
+  //   }
+  // }
   .page_content{
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    .menu{
-      width: 220px;
-      min-height: calc(100vh - 80px);
-    }
+    width: 100vw;
+    height: 100vh;
+    display: flex;
     .router_view{
-      // max-width: calc(100vw - 240px);
-      // min-height: calc(100vh - 112px);
-      background:rgba(245,247,250,1);
-      box-sizing: border-box;
       padding: 20px;
-      border-radius:12px;
-      width: 100%;
+      box-sizing: border-box;
+      flex: 1;
     }
   }
 }

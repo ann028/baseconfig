@@ -5,19 +5,19 @@
       <el-input placeholder="密码" suffix-icon="el-icon-date" v-model="userInfo.password" class="mt20"></el-input>
       <el-button round  @click="doLoginIn" class="mt20">login</el-button> -->
 
-      <el-form ref="userForm" label-position="left" label-width="0px" :rules="userRules" :model="userInfo">
-        <el-form-item>
+      <el-form ref="userForm" label-width="0px" :rules="userRules" :model="userInfo">
+        <el-form-item prop="userName">
           <el-input v-model="userInfo.userName">
             <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
           </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="userInfo.password">
+        <el-form-item prop="password">
+          <el-input v-model="userInfo.password"  show-password>
             <i slot="prefix" class="el-input__icon el-icon-s-order"></i>
           </el-input>
         </el-form-item>
         <el-form-item class="main_center" style="width: 100%;">
-          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="doLoginIn('userForm')" >login</el-button>
+          <el-button :loading="loading" type="primary" style="width: 100%;margin-bottom: 30px;" @click="doLoginIn('userForm')" >login</el-button>
         </el-form-item>
       </el-form>
     </section>
@@ -32,18 +32,16 @@ export default class login extends Vue{
   private loading: boolean = false
   public userRules = {
     userName: [
-      { required: true, message: '请输入活动名称', trigger: 'blur' },
+      { required: true, message: '请输入用户名称', trigger: 'blur' },
     ],
     password: [
-      { required: true, message: '请输入活动名称', trigger: 'blur' },
+      { required: true, message: '请输入密码', trigger: 'blur' },
     ]
   }
   private async doLoginIn(userForm: any) {
     // this.loading = true
     const form: any = this.$refs[userForm]
-    console.log(form)
     form.validate((valid: any) => {
-      console.log(valid)
       if (valid) {
         UserApi.login(this.userInfo).then((res: any) => {
         if (res.data.success) {
@@ -55,17 +53,9 @@ export default class login extends Vue{
         }
       })
       } else {
-        console.log('2')
+        return false
       }
     });
-    // UserApi.login(this.userInfo).then((res: any) => {
-    //   if (res.data.success) {
-    //     this.$store.dispatch('getUserLogin', res.data.data)
-    //     this.$router.push({ path: '/'})
-    //   } else {
-    //     this.$message.error(res.data.msg)
-    //   }
-    // })
   }
 }
 </script>
