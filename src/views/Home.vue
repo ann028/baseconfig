@@ -51,13 +51,14 @@ export default class Home extends Vue {
   //   }
   // }
   .page_content{
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     display: flex;
     .router_view{
       padding: 20px;
       box-sizing: border-box;
       flex: 1;
+      // overflow-y: auto;
     }
   }
 }

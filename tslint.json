@@ -30,6 +30,7 @@
     "forin": true, //用for in 必须用if进行过滤
     "import-blacklist": true, //允许使用import require导入具体的模块
     "no-return-await": true, //不允许return await
-    "arrow-parens":  false //箭头函数定义的参数需要括号
+    "arrow-parens":  false, //箭头函数定义的参数需要括号
+    "no-shadowed-variable": false // 推荐使用 obj.property 代替 obj["property"]，但是 obj["prop-erty"] 是被允许的
   }
 }

@@ -47,7 +47,7 @@ export const asyncRouteMap = [
         component: () => import('../views/About.vue'),
         meta: {
           title: '列表3',
-          role: ['admin'],
+          role: ['admin', 'staff'],
         },
       },
       {
@@ -112,7 +112,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes: contantRouteMap,
 })
-
+console.log('=============', process.env.BASE_URL)
 router.beforeEach((to, from, next) => {
   const storeRoles: any = store.state
   const roles = storeRoles.auth.roles || window.sessionStorage.getItem('roles');
@@ -144,7 +144,9 @@ router.beforeEach((to, from, next) => {
               replace: true,
             })
           })
-        }).catch((err) => {})
+        }).catch((err) => {
+          console.log(err)
+        })
       } else {
         next()
       }

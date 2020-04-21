@@ -215,7 +215,7 @@ export default class About extends Vue {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .demo-table-expand {
     font-size: 0;
   }
