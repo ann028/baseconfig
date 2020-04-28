@@ -23,6 +23,24 @@
         <el-table-column
           prop="address"
           label="地址">
+          <template slot-scope="scope">
+            {{scope.row.address.length}}
+            <div v-if="scope.row.address && scope.row.address.length">
+              <div  v-for="(item, index) in scope.row.address" :key="index">
+                <div v-if="index <= 3">
+                  <p>{{item}}</p> 
+                </div>
+                <p v-if="index === 3">more</p>
+                <div v-if="index > 3 && !viewMore">
+                  <p>{{item}}</p> 
+                </div>
+              </div>
+              <!-- <p v-if="viewMore" @click="doViewMore">more</p> -->
+            </div>
+            <div v-else>
+              <span>{{scope.row.address}}</span>
+            </div>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -41,26 +59,42 @@
 import {Vue, Component} from 'vue-property-decorator'
 @Component
 export default class Index extends Vue {
+  private viewMore: boolean = true
   private tableData: any[] = [{
       date: '2016-05-02',
       name: '王小虎',
       address: '上海市普陀区金沙江路 1518 弄',
+      more: true,
     }, {
       date: '2016-05-04',
       name: '王小虎',
-      address: '上海市普陀区金沙江路 1517 弄',
+      address: [
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+        '上海市普陀区金沙江路 1517 弄',
+      ],
+      more: true,
     }, {
       date: '2016-05-01',
       name: '王小虎',
       address: '上海市普陀区金沙江路 1519 弄',
+      more: true,
     }, {
       date: '2016-05-03',
       name: '王小虎',
       address: '上海市普陀区金沙江路 1516 弄',
+      more: true,
     }, {
       date: '2016-05-03',
       name: '王小虎',
       address: '上海市普陀区金沙江路 1516 弄',
+      more: true,
     }, {
       date: '2016-05-03',
       name: '王小虎',
@@ -160,6 +194,9 @@ export default class Index extends Vue {
     console.log(val)
     this.pageJson.currentPage = val
     this.currentData = this.tableData.slice(this.pageJson.currentPage - 1, this.pageJson.pageSize)
+  }
+  private doViewMore() {
+    this.viewMore = !this.viewMore
   }
 }
 </script>

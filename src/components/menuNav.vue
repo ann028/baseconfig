@@ -48,6 +48,7 @@ export default class MenuNav extends Vue {
     this.filterMenu = addRoutes[0].children.filter((item: any) => {
       return item.meta.title
     })
+    console.log('====', this.filterMenu)
   }
   get defaultMenu() {
     if (this.$route.matched && this.$route.matched.length > 2) {
